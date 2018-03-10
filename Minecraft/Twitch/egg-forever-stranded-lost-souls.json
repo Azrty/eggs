@@ -1,0 +1,45 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1"
+    },
+    "exported_at": "2018-03-09T23:30:27-05:00",
+    "name": "Forever Stranded Lost Souls",
+    "author": "fabrizio@lamanna.tech",
+    "description": "Feeling cocky in this part of the galaxy will end up getting you killed. After escaping the treacherous heat of the vast desert planet on your last adventure, you got the ship up and running again. While using the hyperdrive to venture into uncharted space, you thought all was fine and dandy until\u2026 sirens shot off, piercing your brain like a sharp dagger. You stumbled over to the control panel to find out what the issue was and noticed that the damn hyperdrive had went into meltdown. With wrench in hand, you rush over to the hyperdrive core and try to fix any part of it that you can, but you are too late. The ship shook violently, causing all sorts of mechanical problems. With no hope left, your survival instincts had kicked in and urged you to try and use the working engine power to thrust your way out. The engines roared and threw the ship off course, plummeting the vessel out of hyperspace and into a blackhole. With low engine power and time needed to fix the hyperdrive, you had given up and let the abyss of the black hole determine your fate, thus, turning on the autopilot while you continued to tinker with the hyperdrive. The ship began shaking violently once more, throwing your body into the ceiling, knocking you out cold. Luckily, the auto pilot had done it's job and managed to land the ship safely on a nearby world. You rise from your slumber to the smell of foreign burning gasses, the sounds of faint screams, and the concept that you are in hell. Stepping out of your ship, you look around you and notice that you are not quite in hell, but you might as well be. It might be a good time to hang up the keys to flying ships and work on getting a proper piloting license, because you are apparently the worse pilot in the galaxy",
+    "image": "quay.io\/pterodactyl\/core:java",
+    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}",
+    "config": {
+        "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"enable-query\": \"true\",\r\n            \"server-port\": \"{{server.build.default.port}}\",\r\n            \"query.port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
+        "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs\/latest.log\"\r\n}",
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Forge Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napk update\r\napk add curl --no-cache\r\n\r\ncd \/mnt\/server\r\n\r\ncurl -L https:\/\/minecraft.curseforge.com\/projects\/forever-stranded-lost-souls\/files\/${PROJECT_ID}\/download -o Server+Files.zip\r\n\r\nunzip -o Server+Files.zip\r\n\r\nrm -rf Server+Files.zip\r\n\r\nmv forge-*.jar server.jar",
+            "container": "alpine:3.7",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Modpack Files ID",
+            "description": "This ID can be found on the URL, example: https:\/\/minecraft.curseforge.com\/projects\/modpack-name\/files\/2536782 . the ID there is 2536782",
+            "env_variable": "PROJECT_ID",
+            "default_value": "2537126",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Jar File",
+            "description": "",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "server.jar",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|regex:\/^([\\w\\d._-]+)(\\.jar)$\/"
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1"
+    },
+    "exported_at": "2018-03-09T23:02:50-05:00",
+    "name": "The Simple Life 2",
+    "author": "fabrizio@lamanna.tech",
+    "description": "The Simple Life 2 takes a slightly different approach to Minecraft than most other Mod-packs. It has been designed with some unusual and lesser known mods alongside the more popular 1.10 offerings. Each area of the pack (tech, magic etc) has only one primary mod to influence that area rather than having multiple tech mods all vying for attention, you\u2019ll have to follow the integrated quests and custom recipes to achieve your goals!",
+    "image": "quay.io\/pterodactyl\/core:java",
+    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}",
+    "config": {
+        "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"enable-query\": \"true\",\r\n            \"server-port\": \"{{server.build.default.port}}\",\r\n            \"query.port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
+        "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs\/latest.log\"\r\n}",
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Forge Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napk update\r\napk add curl --no-cache\r\n\r\ncd \/mnt\/server\r\n\r\ncurl -L https:\/\/minecraft.curseforge.com\/projects\/the-simple-life-2-hqm\/files\/${PROJECT_ID}\/download -o Server+Files.zip\r\n\r\nunzip -o Server+Files.zip\r\n\r\nrm -rf Server+Files.zip\r\n\r\ncd \/mnt\/server\/Toast\\ Server\/\r\nmv * \/mnt\/server\r\n\r\ncd \/mnt\/server\r\nrm -rf Toast\\ Server\r\nmv forge-*.jar server.jar",
+            "container": "alpine:3.7",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Modpack Files ID",
+            "description": "This ID can be found on the URL, example: https:\/\/minecraft.curseforge.com\/projects\/modpack-name\/files\/2536782 . the ID there is 2536782",
+            "env_variable": "PROJECT_ID",
+            "default_value": "2499815",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Jar File",
+            "description": "",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "server.jar",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|regex:\/^([\\w\\d._-]+)(\\.jar)$\/"
+        }
+    ]
+}
