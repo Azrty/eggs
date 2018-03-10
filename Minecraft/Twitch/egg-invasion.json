@@ -1,0 +1,45 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1"
+    },
+    "exported_at": "2018-03-09T22:17:11-05:00",
+    "name": "Invasion",
+    "author": "fabrizio@lamanna.tech",
+    "description": "In a world where every minecraft player before you has depleted all resources, your mission is to survive among the savage remnants of the old civilizations. Resources have all been mined away and must be collected via Air Drops. Water is finite and crafting tables are endangered. Your goal is to survive the onslaught of every other survivor to collect the materials you need to live and defend your home at all costs. Crafting tables can no longer be made by the player and now have to be sought out in the world. But, watch over your shoulder, because as soon as you begin crafting other survivors will approach. Invasion proves to be a fresh approach with resource collection and management in a grim environment. Will you rise above the rest, or will you fall like so many before you?",
+    "image": "quay.io\/pterodactyl\/core:java",
+    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}",
+    "config": {
+        "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"enable-query\": \"true\",\r\n            \"server-port\": \"{{server.build.default.port}}\",\r\n            \"query.port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
+        "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs\/latest.log\"\r\n}",
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Forge Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napk update\r\napk add curl --no-cache\r\n\r\ncd \/mnt\/server\r\n\r\ncurl -L https:\/\/minecraft.curseforge.com\/projects\/invasion\/files\/${PROJECT_ID}\/download -o Server+Files.zip\r\n\r\nunzip -o Server+Files.zip\r\n\r\nrm -rf Server+Files.zip\r\n\r\nmv forge-*.jar server.jar",
+            "container": "alpine:3.7",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Modpack Files ID",
+            "description": "This ID can be found on the URL, example: https:\/\/minecraft.curseforge.com\/projects\/modpack-name\/files\/2536782 . the ID there is 2536782",
+            "env_variable": "PROJECT_ID",
+            "default_value": "2447207",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Jar File",
+            "description": "",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "server.jar",
+            "user_viewable": 0,
+            "user_editable": 0,
+            "rules": "required|regex:\/^([\\w\\d._-]+)(\\.jar)$\/"
+        }
+    ]
+}
