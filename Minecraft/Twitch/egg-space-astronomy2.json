@@ -1,0 +1,54 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1"
+    },
+    "exported_at": "2018-03-10T12:49:05-05:00",
+    "name": "Space Astronomy 2",
+    "author": "fabrizio@lamanna.tech",
+    "description": "Space Astronomy 2 is a space based modpack, that include loads of the latest teoch and space mods. Explore the Universe with the help of the provided achievement bookt that will lead you around and that required steps that you will need to take.",
+    "image": "quay.io\/pterodactyl\/core:java",
+    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}",
+    "config": {
+        "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"enable-query\": \"true\",\r\n            \"server-port\": \"{{server.build.default.port}}\",\r\n            \"query.port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
+        "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs\/latest.log\"\r\n}",
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Forge Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napk update\r\napk add curl --no-cache\r\n\r\ncd \/mnt\/server\r\n\r\ncurl -L https:\/\/minecraft.curseforge.com\/projects\/space-astronomy-2\/files\/${PROJECT_ID}\/download -o Server+Files.zip\r\n\r\nunzip -o Server+Files.zip\r\n\r\nrm -rf Server+Files.zip\r\n\r\ncd \/mnt\/server\/Space\\ Astronomy\\ 2\\ Server\\ Files\\ -\\ v${MODPACK_VERSION}\r\nmv * \/mnt\/server\r\n\r\ncd \/mnt\/server\r\nrm -rf Space\\ Astronomy\\ 2\\ Server\\ Files\\ -\\ v${MODPACK_VERSION}\r\n\r\nmv forge-*.jar server.jar",
+            "container": "alpine:3.7",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Modpack Files ID",
+            "description": "This ID can be found on the URL, example: https:\/\/minecraft.curseforge.com\/projects\/modpack-name\/files\/2536782 . the ID there is 2536782",
+            "env_variable": "PROJECT_ID",
+            "default_value": "2538949",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Jar File",
+            "description": "",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "server.jar",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|regex:\/^([\\w\\d._-]+)(\\.jar)$\/"
+        },
+        {
+            "name": "Modpack Version",
+            "description": "The version of Space Astronomy 2, it is important that you put the correct version",
+            "env_variable": "MODPACK_VERSION",
+            "default_value": "1.4.6",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|string|max:20"
+        }
+    ]
+}
